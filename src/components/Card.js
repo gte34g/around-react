@@ -21,7 +21,7 @@ function Card(props) {
           onClick={handleRemoveModal}
         ></button>
         <div className="place__info">
-          <h2 className="place__text">{props.name}</h2>
+          <h2 className="place__text">{props.card.name}</h2>
           <div className="likes-wrapper">
             <button className="place__btn-hart" type="button"></button>
             <p className="place__hart-counts">{props.likeCounter}</p>

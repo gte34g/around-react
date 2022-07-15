@@ -1,5 +1,4 @@
 import React from "react";
-import "../blocks/main/main.css";
 import editBtn from "../images/Edit-Button.svg";
 import plusButton from "../images/plusButton.svg";
 import { api } from "../utils/api";
@@ -17,9 +16,12 @@ function Main({
   const [userAvatar, setUserAvatar] = React.useState("");
   const [cards, setCards] = React.useState([]);
   React.useEffect(() => {
-    api.getInitialCards().then((res) => {
-      setCards(res);
-    });
+    api
+      .getInitialCards()
+      .then((res) => {
+        setCards(res);
+      })
+      .catch((err) => console.log(err));
   }, []);
   React.useEffect(() => {
     api

@@ -1,6 +1,4 @@
 import React from "react";
-import "../blocks/popup/popup.css";
-import "../blocks/popup/_active/popup_active.css";
 
 function PopupWithForm(props) {
   return (

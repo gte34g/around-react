@@ -1,6 +1,5 @@
 function ImagePopup(props) {
   return (
-    <>
       <div
         className={`popup popup-preview ${props.isOpen ? "popup_active" : ""}`}
       >
@@ -19,7 +18,6 @@ function ImagePopup(props) {
           <p className="popup__description">{props.card.name}</p>
         </div>
       </div>
-    </>
   );
 }
 
