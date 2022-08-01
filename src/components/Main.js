@@ -3,7 +3,7 @@ import editBtn from "../images/Edit-Button.svg";
 import plusButton from "../images/plusButton.svg";
 import Card from "./Card";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import { CardsContext } from "../contexts/CardsContext"
+import { CardsContext } from "../contexts/CardsContext";
 
 function Main({
   onEditProfileClick,
@@ -12,14 +12,11 @@ function Main({
   onCardClick,
   onDeleteClick,
   onCardLike,
-
 }) {
-
   const cards = React.useContext(CardsContext);
   const [userInfo, setUserInfo] = React.useState({});
   const currentUser = React.useContext(CurrentUserContext);
 
-  
   React.useEffect(() => {
     setUserInfo({
       name: currentUser.name,
@@ -27,7 +24,6 @@ function Main({
       avatar: currentUser.avatar,
     });
   }, [currentUser]);
-
 
   return (
     <main className="main">
@@ -82,7 +78,9 @@ function Main({
               likeCounter={card.likes.length}
               onCardClick={onCardClick}
               onDeleteClick={onDeleteClick}
-              onCardLike={()=> {onCardLike(card)}}
+              onCardLike={() => {
+                onCardLike(card);
+              }}
             />
           );
         })}
@@ -91,4 +89,4 @@ function Main({
   );
 }
 
-export default Main
+export default Main;

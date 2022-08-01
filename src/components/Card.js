@@ -12,8 +12,10 @@ function Card({
 }) {
   const currentUser = React.useContext(CurrentUserContext);
   const isOwn = card.owner._id === currentUser._id;
-  const cardDeleteButtonClassName = isOwn ? "place__btn-trash" : "place__btn-trash_hidden";
-  
+  const cardDeleteButtonClassName = isOwn
+    ? "place__btn-trash"
+    : "place__btn-trash_hidden";
+
   const isLiked = card.likes.some((user) => user._id === currentUser._id);
   const cardLikeButtonClassName = isLiked
     ? "place__btn-hart_active"
@@ -56,4 +58,4 @@ function Card({
   );
 }
 
-export default Card
+export default Card;

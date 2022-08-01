@@ -2,24 +2,23 @@ import React from "react";
 import PopupWithForm from "./PopupWithForm";
 
 function AddPlacePopup({ isOpen, onClose, onCardsUpdate }) {
-    const [card, setCard] = React.useState({ name: '', link: '' })
+  const [card, setCard] = React.useState({ name: "", link: "" });
 
-    function handleChange(e) {
-      const { name, value } = e.target;
-      setCard({ ...card, [name]: value });
-    }
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setCard({ ...card, [name]: value });
+  }
 
-    function handleSubmit(e) {
-      e.preventDefault();
-      onCardsUpdate({
-        name: card.name,
-        link: card.link,
-      });
-    }
-    React.useEffect(() => {
-      setCard((card) => ({ ...card, name: "", link: "" }));
-    }, [isOpen]);
-
+  function handleSubmit(e) {
+    e.preventDefault();
+    onCardsUpdate({
+      name: card.name,
+      link: card.link,
+    });
+  }
+  React.useEffect(() => {
+    setCard((card) => ({ ...card, name: "", link: "" }));
+  }, [isOpen]);
 
   return (
     <PopupWithForm
@@ -32,8 +31,8 @@ function AddPlacePopup({ isOpen, onClose, onCardsUpdate }) {
     >
       <div className="popup__field">
         <input
-                  onChange={handleChange}
-                  value={card.name || ''}
+          onChange={handleChange}
+          value={card.name || ""}
           id="place-title-input"
           type="text"
           name="name"
@@ -50,8 +49,8 @@ function AddPlacePopup({ isOpen, onClose, onCardsUpdate }) {
       </div>
       <div className="popup__field">
         <input
-                  onChange={handleChange}
-                  value={card.link || ''}
+          onChange={handleChange}
+          value={card.link || ""}
           id="input-url"
           type="url"
           name="link"
@@ -65,8 +64,4 @@ function AddPlacePopup({ isOpen, onClose, onCardsUpdate }) {
   );
 }
 
-export default AddPlacePopup
-
-
-
-
+export default AddPlacePopup;

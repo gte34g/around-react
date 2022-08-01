@@ -12,48 +12,51 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { CardsContext } from "../contexts/CardsContext";
 
 function App() {
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
+    React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
+    React.useState(false);
   const [isImagePreviewOpen, setIsImagePreviewOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState({
     name: "",
     link: "",
   });
   const [currentUser, setCurrentUser] = React.useState({});
-  const [cards, setCards] = React.useState([])
+  const [cards, setCards] = React.useState([]);
 
-
-const handleEditAvatarClick = () => {
-  setIsEditAvatarPopupOpen(true);
-};
-
-const handleEditProfileClick = () => {
-  setIsEditProfilePopupOpen(true);
-};
-
-const handleAddPlaceClick = () => {
-  setIsAddPlacePopupOpen(true);
-};
-
-function handleCardClick(card) {
-  setIsImagePreviewOpen(true);
-  setSelectedCard({
-    name: card.name,
-    link: card.link,
-  });
+  const handleEditAvatarClick = () => {
+    setIsEditAvatarPopupOpen(true);
   };
-  
+
+  const handleEditProfileClick = () => {
+    setIsEditProfilePopupOpen(true);
+  };
+
+  const handleAddPlaceClick = () => {
+    setIsAddPlacePopupOpen(true);
+  };
+
+  function handleCardClick(card) {
+    setIsImagePreviewOpen(true);
+    setSelectedCard({
+      name: card.name,
+      link: card.link,
+    });
+  }
+
   React.useEffect(() => {
-    api.getUserInfo()
+    api
+      .getUserInfo()
       .then((res) => {
         setCurrentUser(res);
       })
       .catch((err) => console.log(err));
   }, []);
-  
-  function handleUpdateUser({name, about}) {
-    api.editProfile({ name, about })
+
+  function handleUpdateUser({ name, about }) {
+    api
+      .editProfile({ name, about })
       .then((res) => {
         setCurrentUser(res);
         closeAllPopups();
@@ -61,43 +64,46 @@ function handleCardClick(card) {
       .catch((err) => {
         console.log(err);
       });
-  }  
-  
+  }
+
   function handleAvatarUpdate({ avatar }) {
-    api.setUserAvatar({ avatar })
+    api
+      .setUserAvatar({ avatar })
       .then((res) => {
         setCurrentUser(res);
       })
-      .then(closeAllPopups())
+      .then(closeAllPopups)
       .catch((err) => console.log(err));
   }
 
   function handleCardUpdate({ name, link }) {
-    api.createCard({ name, link })
+    api
+      .createCard({ name, link })
       .then((res) => {
         setCards([res, ...cards]);
       })
-      .then(closeAllPopups())
+      .then(closeAllPopups)
       .catch((err) => console.log(err));
   }
 
-    function handleCardLike(card) {
-      const isLiked = card.likes.some((user) => user._id === currentUser._id);
-      api.likeCard(card._id, !isLiked)
-        .then((newCard) => {
-          setCards((state) =>
-            state.map((currentCard) =>
-              currentCard._id === card._id ? newCard : currentCard
-            )
-          );
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      
-  } 
+  function handleCardLike(card) {
+    const isLiked = card.likes.some((user) => user._id === currentUser._id);
+    api
+      .likeCard(card._id, !isLiked)
+      .then((newCard) => {
+        setCards((state) =>
+          state.map((currentCard) =>
+            currentCard._id === card._id ? newCard : currentCard
+          )
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
   function handleRemoveCard(card) {
-    api.deleteCard(card._id)
+    api
+      .deleteCard(card._id)
       .then((res) => {
         setCards((cards) =>
           cards.filter((cardToStay) => cardToStay._id !== card._id)
@@ -106,26 +112,34 @@ function handleCardClick(card) {
       .catch((err) => console.log(err));
   }
 
+  React.useEffect(() => {
+    api
+      .getInitialCards()
+      .then((res) => {
+        setCards(res);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
-
-React.useEffect(() => {
-  api
-    .getInitialCards()
-    .then((res) => {
-      setCards(res);
-    })
-    .catch((err) => console.log(err));
-}, []);
-
-
-const closeAllPopups = () => {
-  setIsAddPlacePopupOpen(false);
-  setIsEditAvatarPopupOpen(false);
-  setIsEditProfilePopupOpen(false);
-  setIsImagePreviewOpen(false);
-};
+  const closeAllPopups = () => {
+    setIsAddPlacePopupOpen(false);
+    setIsEditAvatarPopupOpen(false);
+    setIsEditProfilePopupOpen(false);
+    setIsImagePreviewOpen(false);
+  };
   
-  
+   React.useEffect(() => {
+     const closeByEscape = (e) => {
+       if (e.key === "Escape") {
+         closeAllPopups();
+       }
+     };
+
+     document.addEventListener("keydown", closeByEscape);
+
+     return () => document.removeEventListener("keydown", closeByEscape);
+   }, []);
+
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -161,7 +175,7 @@ const closeAllPopups = () => {
           isOpen={isImagePreviewOpen}
           onClose={closeAllPopups}
         />
-        
+
         {/* <PopupWithForm
             title="Are you sure?"
             name="delete-card"
