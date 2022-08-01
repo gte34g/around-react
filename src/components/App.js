@@ -44,9 +44,16 @@ function handleCardClick(card) {
   });
   };
   
+  React.useEffect(() => {
+    api.getUserInfo()
+      .then((res) => {
+        setCurrentUser(res);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+  
   function handleUpdateUser({name, about}) {
-    api
-      .editProfile({ name, about })
+    api.editProfile({ name, about })
       .then((res) => {
         setCurrentUser(res);
         closeAllPopups();
@@ -76,8 +83,7 @@ function handleCardClick(card) {
 
     function handleCardLike(card) {
       const isLiked = card.likes.some((user) => user._id === currentUser._id);
-      api
-        .likeCard(card._id, !isLiked)
+      api.likeCard(card._id, !isLiked)
         .then((newCard) => {
           setCards((state) =>
             state.map((currentCard) =>
@@ -91,8 +97,7 @@ function handleCardClick(card) {
       
   } 
   function handleRemoveCard(card) {
-    api
-      .deleteCard(card._id)
+    api.deleteCard(card._id)
       .then((res) => {
         setCards((cards) =>
           cards.filter((cardToStay) => cardToStay._id !== card._id)
@@ -101,20 +106,7 @@ function handleCardClick(card) {
       .catch((err) => console.log(err));
   }
 
-React.useEffect(() => {
-  api
-    .getUserInfo()
-    .then((res) => {
-      setCurrentUser(() => {
-        return {
-          name: res.name,
-          about: res.about,
-          avatar: res.avatar,
-        };
-      });
-    })
-    .catch((err) => console.log(err));
-}, []);
+
 
 React.useEffect(() => {
   api
