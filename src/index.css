@@ -65,6 +65,7 @@
 
 /* Likes */
 @import url(./blocks/likes-wrapper/likes-wrapper.css);
+@import url(./blocks/place/__btn-hart/-counts/place__hart-counts.css);
 
 
 /* Footer */
