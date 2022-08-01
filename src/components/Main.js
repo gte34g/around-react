@@ -1,8 +1,9 @@
 import React from "react";
 import editBtn from "../images/Edit-Button.svg";
 import plusButton from "../images/plusButton.svg";
-import { api } from "../utils/api";
 import Card from "./Card";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import { CardsContext } from "../contexts/CardsContext"
 
 function Main({
   onEditProfileClick,
@@ -10,29 +11,23 @@ function Main({
   onEditAvatarClick,
   onCardClick,
   onDeleteClick,
+  onCardLike,
+
 }) {
-  const [userName, setUserName] = React.useState("");
-  const [userDescription, setUserDescription] = React.useState("");
-  const [userAvatar, setUserAvatar] = React.useState("");
-  const [cards, setCards] = React.useState([]);
+
+  const cards = React.useContext(CardsContext);
+  const [userInfo, setUserInfo] = React.useState({});
+  const currentUser = React.useContext(CurrentUserContext);
+
+  
   React.useEffect(() => {
-    api
-      .getInitialCards()
-      .then((res) => {
-        setCards(res);
-      })
-      .catch((err) => console.log(err));
-  }, []);
-  React.useEffect(() => {
-    api
-      .getUserInfo()
-      .then((res) => {
-        setUserName(res.name);
-        setUserDescription(res.about);
-        setUserAvatar(res.avatar);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+    setUserInfo({
+      name: currentUser.name,
+      about: currentUser.about,
+      avatar: currentUser.avatar,
+    });
+  }, [currentUser]);
+
 
   return (
     <main className="main">
@@ -44,7 +39,7 @@ function Main({
             onClick={onEditAvatarClick}
           >
             <img
-              src={userAvatar}
+              src={userInfo.avatar}
               alt="User avatar"
               className="profile__image"
             />
@@ -52,7 +47,7 @@ function Main({
           <div className="profile__info">
             <div className="profile__content">
               <h1 className="profile__name" id="heroName">
-                {userName}
+                {userInfo.name}
               </h1>
               <button
                 type="button"
@@ -64,7 +59,7 @@ function Main({
               </button>
             </div>
             <p className="profile__title" id="heroTitle">
-              {userDescription}
+              {userInfo.about}
             </p>
           </div>
         </div>
@@ -87,6 +82,7 @@ function Main({
               likeCounter={card.likes.length}
               onCardClick={onCardClick}
               onDeleteClick={onDeleteClick}
+              onCardLike={()=> {onCardLike(card)}}
             />
           );
         })}

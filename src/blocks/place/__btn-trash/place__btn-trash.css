@@ -13,6 +13,7 @@
     margin-top: 18px;
     right: 15px;
     z-index: 2;
+    opacity: 1;
 }
 
 .place__btn-trash:hover {

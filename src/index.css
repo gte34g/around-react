@@ -55,6 +55,7 @@
 @import url(./blocks/place/__info/place__info.css);
 @import url(./blocks/place/__image/place__image.css);
 @import url(./blocks/place/__btn-trash/place__btn-trash.css);
+@import url(./blocks/place/__btn-trash/_hidden/place__btn-trash_hidden.css);
 @import url(./blocks/place/__btn-hart/place__btn-hart.css);
 @import url(./blocks/place/__btn-hart/_active/place__btn-hart_active.css);
 

@@ -52,21 +52,21 @@ class Api {
     });
   }
 
-  likeCard(cardId) {
-    return this._customFetch(`${this._baseUrl}/cards/likes/${cardId}`, {
-      method: "PUT",
-      headers: this._headers,
-    });
+  likeCard(cardId, likeState) {
+    if (!likeState) {
+      return this._customFetch(`${this._baseUrl}/cards/likes/${cardId}`, {
+        headers: this._headers,
+        method: "DELETE",
+      });
+    } else {
+      return this._customFetch(`${this._baseUrl}/cards/likes/${cardId}`, {
+        headers: this._headers,
+        method: "PUT",
+      });
+    }
   }
 
-  dislikeCard(cardId) {
-    return this._customFetch(`${this._baseUrl}/cards/likes/${cardId}`, {
-      method: "DELETE",
-      headers: this._headers,
-    });
-  }
-
-  changeAvatar(avatar) {
+  setUserAvatar(avatar) {
     return this._customFetch(`${this._baseUrl}/users/me/avatar`, {
       method: "PATCH",
       headers: this._headers,
